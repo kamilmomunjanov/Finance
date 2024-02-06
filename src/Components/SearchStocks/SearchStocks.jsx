@@ -5,16 +5,16 @@ import stockApi from "../../api/stockApi";
 
 const SearchStocks = () => {
     const [value, setValue] = React.useState("")
-    const { data, error, isLoading } = useQuery("getStocks", () => stockApi.getStocks());
-    const [arr, setArr] = React.useState([])
+    const { data } = useQuery("getStocks", () => stockApi.getStocks());
+    const [stocks, setStocks] = React.useState([])
 
     React.useEffect(() => {
-        if (Array.isArray(data?.data)) {
-            const limitedData = data.data.slice(0, 10);
-            console.log(limitedData);
-            setArr(limitedData)
-        }
-    }, [data]);
+        if (!data.data) return
+        const filteredStocks = data.data.filter(stock => {
+            return stock.name.toLowerCase().includes(value.toLowerCase())
+    }).slice(0,9)
+        setStocks(filteredStocks)
+    }, [data, value]);
 
 
 
@@ -31,8 +31,8 @@ const SearchStocks = () => {
             />
             <ul className={style.autocomplete}>
                 {
-                    arr?.map((stock, index) => (
-                        <li className={style.item} key={index}>{stock.exchange}</li>
+                    stocks?.map((stock, index) => (
+                        <li className={style.item} key={index}>{stock.name}</li>
                     ))
                 }
             </ul>
