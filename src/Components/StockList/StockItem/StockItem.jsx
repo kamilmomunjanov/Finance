@@ -11,6 +11,8 @@ const fetchStock = async (symbol) => {
     return stock
 }
 
+
+
 const StockItem = ({stock, deleteFromFavorite}) => {
     const {data, isLoading} = useQuery(`getStock/${stock.symbol}`, () => fetchStock(stock.symbol))
     if (data && !isLoading) {
