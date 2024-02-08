@@ -4,6 +4,7 @@
     const API_KEY = "36fb6d1f66f64b92869d52f8296916a9"
     // https://api.twelvedata.com/profile?symbol=AAPL&apikey=36fb6d1f66f64b92869d52f8296916a9
     // https://api.twelvedata.com/quote?symbol=AAPL&apikey=36fb6d1f66f64b92869d52f8296916a9
+    // https://api.twelvedata.com/logo?symbol=AAPL&apikey=demo
 
     const stockApi = {
         getStocks: async function () {
@@ -18,9 +19,6 @@
         },
         getProfile: async function (symbol) {
             try {
-                if (typeof symbol !== 'string') {
-                    throw new Error('Invalid symbol provided');
-                }
                 const response = await axios.get(`${BASES_URL}/profile`, {
                     params: {
                         symbol: symbol,
@@ -35,10 +33,21 @@
         },
         getPrice: async function (symbol) {
             try {
-                if (typeof symbol !== 'string') {
-                    throw new Error('Invalid symbol provided');
-                }
                 const response = await axios.get(`${BASES_URL}/quote`, {
+                    params: {
+                        symbol: symbol,
+                        apikey: API_KEY
+                    }
+                });
+                return response.data;
+            } catch (error) {
+                console.error("Error fetching stocks:", error);
+                throw error;
+            }
+        },
+        getLogo: async function (symbol) {
+            try {
+                const response = await axios.get(`${BASES_URL}/logo?`, {
                     params: {
                         symbol: symbol,
                         apikey: API_KEY

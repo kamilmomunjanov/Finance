@@ -13,3 +13,15 @@
 
 }
 
+.logo{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: grey;
+}
+
+.info{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
